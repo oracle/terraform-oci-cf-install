@@ -1,5 +1,5 @@
 resource "baremetal_core_instance" "bosh-cli" {
-    availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
+    availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[var.BastionAD - 1],"name")}"
     compartment_id = "${var.compartment_ocid}"
     display_name = "bosh-cli"
     hostname_label = "bosh-cli"

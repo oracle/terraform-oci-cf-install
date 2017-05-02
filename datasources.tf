@@ -13,7 +13,7 @@ data "baremetal_core_images" "OLImageOCID" {
 # Gets a list of vNIC attachments on the instance
 data "baremetal_core_vnic_attachments" "InstanceVnics" {
     compartment_id = "${var.compartment_ocid}"
-    availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[var.AD - 1], "name")}"
+    availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[var.BastionAD - 1], "name")}"
     instance_id = "${baremetal_core_instance.bosh-cli.id}"
 }
 

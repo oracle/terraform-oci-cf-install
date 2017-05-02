@@ -54,9 +54,8 @@ variable "BastionSubnetAD3-CIDR" {
     default = "10.0.9.0/24"
 }
 
-# TODO: This can go away.
-# Choose an Availability Domain
-variable "AD" {
+# Choose an Availability Domain for the Bastion instance.
+variable "BastionAD" {
     default = "1"
 }
 
