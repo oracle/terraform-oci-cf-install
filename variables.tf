@@ -1,7 +1,7 @@
-variable "tenancy_ocid" {}
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "private_key_path" {}
+variable "oracle_bmcs_tenancy_ocid" {}
+variable "oracle_bmcs_user_ocid" {}
+variable "oracle_bmcs_fingerprint" {}
+variable "oracle_bmcs_private_key_path" {}
 
 variable "compartment_ocid" {}
 variable "ssh_public_key" {}
@@ -9,6 +9,10 @@ variable "ssh_private_key" {}
 variable "ssh_username" {
     default = "ubuntu"
 }
+
+variable "dyn_customer_name" {}
+variable "dyn_username" {}
+variable "dyn_password" {}
 
 variable "VPC-CIDR" {
     default = "10.0.0.0/16"

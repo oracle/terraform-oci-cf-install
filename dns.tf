@@ -6,4 +6,12 @@ resource "dyn_record" "cname" {
   type  = "CNAME"
   ttl   = 300
 }
+
+resource "dyn_record" "foobar" {
+  zone  = "${var.dyn_zone}"
+  name  = "terraform"
+  value = "192.168.0.11"
+  type  = "A"
+  ttl   = 3600
+}
 */
