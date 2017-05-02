@@ -11,3 +11,8 @@ export TF_VAR_compartment_ocid="<compartment OCID>"
 export TF_VAR_ssh_username=ubuntu
 export TF_VAR_ssh_public_key=$(cat ./terraform-ssh.pub)
 export TF_VAR_ssh_private_key=$(cat ./terraform-ssh.pem)
+
+### Dyn
+export TF_VAR_dyn_customer_name="<customer name>"
+export TF_VAR_dyn_username="<user name>"
+export TF_VAR_dyn_password="<password>"
