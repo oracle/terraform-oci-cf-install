@@ -1,4 +1,4 @@
-resource "baremetal_core_instance" "TFInstance" {
+resource "baremetal_core_instance" "bosh-cli" {
   availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
   compartment_id = "${var.compartment_ocid}"
   display_name = "bosh-cli"
