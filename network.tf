@@ -1,8 +1,8 @@
 resource "baremetal_core_virtual_network" "CloudFoundryVCN" {
-  cidr_block = "${var.VPC-CIDR}"
-  compartment_id = "${var.compartment_ocid}"
-  display_name = "CloudFoundryVCN"
-  dns_label = "cfvcn"
+    cidr_block = "${var.VPC-CIDR}"
+    compartment_id = "${var.compartment_ocid}"
+    display_name = "CloudFoundryVCN"
+    dns_label = "cfvcn"
 }
 
 resource "baremetal_core_internet_gateway" "CloudFoundryIG" {
