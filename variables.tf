@@ -65,7 +65,7 @@ variable "timeout_minutes" {
 }
 
 variable "InstanceShape" {
-    default = "VM.Standard1.2"
+    default = "VM.Standard1.1"
 }
 
 variable "InstanceOS" {
