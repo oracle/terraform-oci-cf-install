@@ -1,0 +1,6 @@
+*.DS_Store
+env-vars
+terraform-ssh.pub
+terraform-ssh.pem
+terraform.tfstate
+terraform.tfstate.backup
