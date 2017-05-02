@@ -1,5 +1,5 @@
 resource "null_resource" "remote-exec" {
-    depends_on = ["baremetal_core_instance.TFInstance"]
+    depends_on = ["baremetal_core_instance.bosh-cli"]
     provisioner "remote-exec" {
       connection {
         agent = false
