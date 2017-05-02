@@ -1,4 +1,5 @@
 *.DS_Store
+*.swp
 env-vars
 terraform-ssh.pub
 terraform-ssh.pem
