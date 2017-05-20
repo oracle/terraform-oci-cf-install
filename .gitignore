@@ -1,7 +1,10 @@
 *.DS_Store
 *.swp
 env-vars
-terraform-ssh.pub
-terraform-ssh.pem
+keys/bosh-api-fingerprint
+keys/bosh-api-private-key.pem
+keys/bosh-api-public-key.pem
+keys/bosh-ssh.pem
+keys/bosh-ssh.pub
 terraform.tfstate
 terraform.tfstate.backup

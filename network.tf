@@ -1,18 +1,18 @@
 resource "baremetal_core_virtual_network" "CloudFoundryVCN" {
     cidr_block = "${var.VPC-CIDR}"
-    compartment_id = "${var.compartment_ocid}"
+    compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
     display_name = "CloudFoundryVCN"
     dns_label = "cfvcn"
 }
 
 resource "baremetal_core_internet_gateway" "CloudFoundryIG" {
-    compartment_id = "${var.compartment_ocid}"
+    compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
     display_name = "CloudFoundryIG"
     vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
 }
 
 resource "baremetal_core_route_table" "CloudFoundryRouteTable" {
-    compartment_id = "${var.compartment_ocid}"
+    compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
     vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
     display_name = "CloudFoundryRouteTable"
     route_rules {
@@ -22,7 +22,7 @@ resource "baremetal_core_route_table" "CloudFoundryRouteTable" {
 }
 
 resource "baremetal_core_security_list" "PublicSubnet" {
-    compartment_id = "${var.compartment_ocid}"
+    compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
     display_name = "Public"
     vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
     egress_security_rules = [{
@@ -61,7 +61,7 @@ resource "baremetal_core_security_list" "PublicSubnet" {
 }
 
 resource "baremetal_core_security_list" "PrivateSubnet" {
-    compartment_id = "${var.compartment_ocid}"
+    compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
     display_name = "Private"
     vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
     egress_security_rules = [{
@@ -76,7 +76,7 @@ resource "baremetal_core_security_list" "PrivateSubnet" {
 }
 
 resource "baremetal_core_security_list" "BastionSubnet" {
-    compartment_id = "${var.compartment_ocid}"
+    compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
     display_name = "Bastion"
     vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
     egress_security_rules = [{
@@ -97,17 +97,18 @@ resource "baremetal_core_security_list" "BastionSubnet" {
     }]
 }
 
+# TODO: Make whitespace consistent
 resource "baremetal_core_subnet" "PublicSubnetAD1" {
   availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[0], "name")}"
   cidr_block = "${var.PublicSubnetAD1-CIDR}"
   display_name = "PublicSubnetAD1"
   dns_label = "cfwebad1"
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
   vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
   route_table_id = "${baremetal_core_route_table.CloudFoundryRouteTable.id}"
   security_list_ids = ["${baremetal_core_security_list.PublicSubnet.id}"]
   provisioner "local-exec" {
-    command = "echo Sleeping for 30 seconds...; sleep 30"
+    command = "echo Sleeping for 120 seconds...; sleep 120"
   }
 }
 
@@ -116,12 +117,12 @@ resource "baremetal_core_subnet" "PrivateSubnetAD1" {
   cidr_block = "${var.PrivateSubnetAD1-CIDR}"
   display_name = "PrivateSubnetAD1"
   dns_label = "cfprvad1"
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
   vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
   route_table_id = "${baremetal_core_route_table.CloudFoundryRouteTable.id}"
   security_list_ids = ["${baremetal_core_security_list.PrivateSubnet.id}"]
   provisioner "local-exec" {
-    command = "echo Sleeping for 30 seconds...; sleep 30"
+    command = "echo Sleeping for 120 seconds...; sleep 120"
   }
 }
 
@@ -130,12 +131,12 @@ resource "baremetal_core_subnet" "BastionSubnetAD1" {
   cidr_block = "${var.BastionSubnetAD1-CIDR}"
   display_name = "BastionSubnetAD1"
   dns_label = "cfbstad1"
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
   vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
   route_table_id = "${baremetal_core_route_table.CloudFoundryRouteTable.id}"
   security_list_ids = ["${baremetal_core_security_list.BastionSubnet.id}"]
   provisioner "local-exec" {
-    command = "echo Sleeping for 30 seconds...; sleep 30"
+    command = "echo Sleeping for 120 seconds...; sleep 120"
   }
 }
 
@@ -144,12 +145,12 @@ resource "baremetal_core_subnet" "PublicSubnetAD2" {
   cidr_block = "${var.PublicSubnetAD2-CIDR}"
   display_name = "PublicSubnetAD2"
   dns_label = "cfwebad2"
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
   vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
   route_table_id = "${baremetal_core_route_table.CloudFoundryRouteTable.id}"
   security_list_ids = ["${baremetal_core_security_list.PublicSubnet.id}"]
   provisioner "local-exec" {
-    command = "echo Sleeping for 30 seconds...; sleep 30"
+    command = "echo Sleeping for 120 seconds...; sleep 120"
   }
 }
 
@@ -158,12 +159,12 @@ resource "baremetal_core_subnet" "PrivateSubnetAD2" {
   cidr_block = "${var.PrivateSubnetAD2-CIDR}"
   display_name = "PrivateSubnetAD2"
   dns_label = "cfprvad2"
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
   vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
   route_table_id = "${baremetal_core_route_table.CloudFoundryRouteTable.id}"
   security_list_ids = ["${baremetal_core_security_list.PrivateSubnet.id}"]
   provisioner "local-exec" {
-    command = "echo Sleeping for 30 seconds...; sleep 30"
+    command = "echo Sleeping for 120 seconds...; sleep 120"
   }
 }
 
@@ -172,12 +173,12 @@ resource "baremetal_core_subnet" "BastionSubnetAD2" {
   cidr_block = "${var.BastionSubnetAD2-CIDR}"
   display_name = "BastionSubnetAD2"
   dns_label = "cfbstad2"
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
   vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
   route_table_id = "${baremetal_core_route_table.CloudFoundryRouteTable.id}"
   security_list_ids = ["${baremetal_core_security_list.BastionSubnet.id}"]
   provisioner "local-exec" {
-    command = "echo Sleeping for 30 seconds...; sleep 30"
+    command = "echo Sleeping for 120 seconds...; sleep 120"
   }
 }
 
@@ -186,12 +187,12 @@ resource "baremetal_core_subnet" "PublicSubnetAD3" {
   cidr_block = "${var.PublicSubnetAD3-CIDR}"
   display_name = "PublicSubnetAD3"
   dns_label = "cfwebad3"
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
   vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
   route_table_id = "${baremetal_core_route_table.CloudFoundryRouteTable.id}"
   security_list_ids = ["${baremetal_core_security_list.PublicSubnet.id}"]
   provisioner "local-exec" {
-    command = "echo Sleeping for 30 seconds...; sleep 30"
+    command = "echo Sleeping for 120 seconds...; sleep 120"
   }
 }
 resource "baremetal_core_subnet" "PrivateSubnetAD3" {
@@ -199,12 +200,12 @@ resource "baremetal_core_subnet" "PrivateSubnetAD3" {
   cidr_block = "${var.PrivateSubnetAD3-CIDR}"
   display_name = "PrivateSubnetAD3"
   dns_label = "cfprvad3"
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
   vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
   route_table_id = "${baremetal_core_route_table.CloudFoundryRouteTable.id}"
   security_list_ids = ["${baremetal_core_security_list.PrivateSubnet.id}"]
   provisioner "local-exec" {
-    command = "echo Sleeping for 30 seconds...; sleep 30"
+    command = "echo Sleeping for 120 seconds...; sleep 120"
   }
 }
 
@@ -213,11 +214,11 @@ resource "baremetal_core_subnet" "BastionSubnetAD3" {
   cidr_block = "${var.BastionSubnetAD3-CIDR}"
   display_name = "BastionSubnetAD3"
   dns_label = "cfbstad3"
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
   vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
   route_table_id = "${baremetal_core_route_table.CloudFoundryRouteTable.id}"
   security_list_ids = ["${baremetal_core_security_list.BastionSubnet.id}"]
   provisioner "local-exec" {
-    command = "echo Sleeping for 30 seconds...; sleep 30"
+    command = "echo Sleeping for 120 seconds...; sleep 120"
   }
 }
