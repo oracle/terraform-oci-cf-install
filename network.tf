@@ -350,9 +350,7 @@ resource "baremetal_core_subnet" "BastionSubnetAD2" {
   compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
   vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
   route_table_id = "${baremetal_core_route_table.CloudFoundryRouteTable.id}"
-  security_list_ids = ["${baremetal_core_security_list.PrivateSubnetAD1.id}",
-                       "${baremetal_core_security_list.PrivateSubnetAD2.id}",
-                       "${baremetal_core_security_list.PrivateSubnetAD3.id}"]
+  security_list_ids = ["${baremetal_core_security_list.BastionSubnet.id}"]
   provisioner "local-exec" {
     command = "echo Sleeping for 120 seconds...; sleep 120"
   }
@@ -379,7 +377,9 @@ resource "baremetal_core_subnet" "PrivateSubnetAD3" {
   compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
   vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
   route_table_id = "${baremetal_core_route_table.CloudFoundryRouteTable.id}"
-  security_list_ids = ["${baremetal_core_security_list.PrivateSubnet.id}"]
+  security_list_ids = ["${baremetal_core_security_list.PrivateSubnetAD1.id}",
+                       "${baremetal_core_security_list.PrivateSubnetAD2.id}",
+                       "${baremetal_core_security_list.PrivateSubnetAD3.id}"]
   provisioner "local-exec" {
     command = "echo Sleeping for 120 seconds...; sleep 120"
   }
