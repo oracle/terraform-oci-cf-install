@@ -53,7 +53,6 @@ resource "baremetal_core_security_list" "PublicSubnet" {
         protocol = "6"
         source = "0.0.0.0/0"
     },
-    # TODO: Is this needed? Seems like this is covered by PrivateSubnet.
     {
         protocol = "6"
         source = "${var.VPC-CIDR}"
@@ -68,7 +67,6 @@ resource "baremetal_core_security_list" "PrivateSubnetAD1" {
         protocol = "6"
         destination = "${var.VPC-CIDR}"
     }]
-    # TODO: Does this cover ICMP as well? Seems so.
     ingress_security_rules = [{
         protocol = "6"
         source = "${var.PrivateSubnetAD1-CIDR}"
@@ -87,7 +85,23 @@ resource "baremetal_core_security_list" "PrivateSubnetAD1" {
             "min" = 6868
         }
         protocol = "6"
-        source = "{var.BastionSubnetAD1-CIDR}"
+        source = "${var.BastionSubnetAD1-CIDR}"
+    },
+    {
+        tcp_options {
+            "max" = 4222
+            "min" = 4222
+        }
+        protocol = "6"
+        source = "${var.BastionSubnetAD1-CIDR}"
+    },
+    {
+        tcp_options {
+            "max" = 25250
+            "min" = 25250
+        }
+        protocol = "6"
+        source = "${var.BastionSubnetAD1-CIDR}"
     },
     {
         tcp_options {
@@ -95,7 +109,15 @@ resource "baremetal_core_security_list" "PrivateSubnetAD1" {
             "min" = 25555
         }
         protocol = "6"
-        source = "{var.BastionSubnetAD1-CIDR}"
+        source = "${var.BastionSubnetAD1-CIDR}"
+    },
+    {
+        tcp_options {
+            "max" = 25777
+            "min" = 25777
+        }
+        protocol = "6"
+        source = "${var.BastionSubnetAD1-CIDR}"
     }]
 }
 
@@ -107,7 +129,6 @@ resource "baremetal_core_security_list" "PrivateSubnetAD2" {
         protocol = "6"
         destination = "${var.VPC-CIDR}"
     }]
-    # TODO: Does this cover ICMP as well? Seems so.
     ingress_security_rules = [{
         protocol = "6"
         source = "${var.PrivateSubnetAD2-CIDR}"
@@ -126,7 +147,23 @@ resource "baremetal_core_security_list" "PrivateSubnetAD2" {
             "min" = 6868
         }
         protocol = "6"
-        source = "{var.BastionSubnetAD2-CIDR}"
+        source = "${var.BastionSubnetAD2-CIDR}"
+    },
+    {
+        tcp_options {
+            "max" = 4222
+            "min" = 4222
+        }
+        protocol = "6"
+        source = "${var.BastionSubnetAD2-CIDR}"
+    },
+    {
+        tcp_options {
+            "max" = 25250
+            "min" = 25250
+        }
+        protocol = "6"
+        source = "${var.BastionSubnetAD2-CIDR}"
     },
     {
         tcp_options {
@@ -134,7 +171,15 @@ resource "baremetal_core_security_list" "PrivateSubnetAD2" {
             "min" = 25555
         }
         protocol = "6"
-        source = "{var.BastionSubnetAD2-CIDR}"
+        source = "${var.BastionSubnetAD2-CIDR}"
+    },
+    {
+        tcp_options {
+            "max" = 25777
+            "min" = 25777
+        }
+        protocol = "6"
+        source = "${var.BastionSubnetAD2-CIDR}"
     }]
 }
 
@@ -146,7 +191,6 @@ resource "baremetal_core_security_list" "PrivateSubnetAD3" {
         protocol = "6"
         destination = "${var.VPC-CIDR}"
     }]
-    # TODO: Does this cover ICMP as well? Seems so.
     ingress_security_rules = [{
         protocol = "6"
         source = "${var.PrivateSubnetAD3-CIDR}"
@@ -165,7 +209,23 @@ resource "baremetal_core_security_list" "PrivateSubnetAD3" {
             "min" = 6868
         }
         protocol = "6"
-        source = "{var.BastionSubnetAD3-CIDR}"
+        source = "${var.BastionSubnetAD3-CIDR}"
+    },
+    {
+        tcp_options {
+            "max" = 4222
+            "min" = 4222
+        }
+        protocol = "6"
+        source = "${var.BastionSubnetAD3-CIDR}"
+    },
+    {
+        tcp_options {
+            "max" = 25250
+            "min" = 25250
+        }
+        protocol = "6"
+        source = "${var.BastionSubnetAD3-CIDR}"
     },
     {
         tcp_options {
@@ -173,7 +233,15 @@ resource "baremetal_core_security_list" "PrivateSubnetAD3" {
             "min" = 25555
         }
         protocol = "6"
-        source = "{var.BastionSubnetAD1-CIDR}"
+        source = "${var.BastionSubnetAD3-CIDR}"
+    },
+    {
+        tcp_options {
+            "max" = 25777
+            "min" = 25777
+        }
+        protocol = "6"
+        source = "${var.BastionSubnetAD1-CIDR}"
     }]
 }
 
