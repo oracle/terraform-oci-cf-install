@@ -60,7 +60,7 @@ resource "baremetal_core_security_list" "PublicSubnet" {
     }]
 }
 
-resource "baremetal_core_security_list" "PrivateSubnet" {
+resource "baremetal_core_security_list" "PrivateSubnetAD1" {
     compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
     display_name = "Private"
     vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
@@ -71,7 +71,109 @@ resource "baremetal_core_security_list" "PrivateSubnet" {
     # TODO: Does this cover ICMP as well? Seems so.
     ingress_security_rules = [{
         protocol = "6"
-        source = "${var.VPC-CIDR}"
+        source = "${var.PrivateSubnetAD1-CIDR}"
+    },
+    {
+        tcp_options {
+            "max" = 22
+            "min" = 22
+        }
+        protocol = "6"
+        source = "${var.BastionSubnetAD1-CIDR}"
+    },
+    {
+        tcp_options {
+            "max" = 6868
+            "min" = 6868
+        }
+        protocol = "6"
+        source = "{var.BastionSubnetAD1-CIDR}"
+    },
+    {
+        tcp_options {
+            "max" = 25555
+            "min" = 25555
+        }
+        protocol = "6"
+        source = "{var.BastionSubnetAD1-CIDR}"
+    }]
+}
+
+resource "baremetal_core_security_list" "PrivateSubnetAD2" {
+    compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
+    display_name = "Private"
+    vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
+    egress_security_rules = [{
+        protocol = "6"
+        destination = "${var.VPC-CIDR}"
+    }]
+    # TODO: Does this cover ICMP as well? Seems so.
+    ingress_security_rules = [{
+        protocol = "6"
+        source = "${var.PrivateSubnetAD2-CIDR}"
+    },
+    {
+        tcp_options {
+            "max" = 22
+            "min" = 22
+        }
+        protocol = "6"
+        source = "${var.BastionSubnetAD2-CIDR}"
+    },
+    {
+        tcp_options {
+            "max" = 6868
+            "min" = 6868
+        }
+        protocol = "6"
+        source = "{var.BastionSubnetAD2-CIDR}"
+    },
+    {
+        tcp_options {
+            "max" = 25555
+            "min" = 25555
+        }
+        protocol = "6"
+        source = "{var.BastionSubnetAD2-CIDR}"
+    }]
+}
+
+resource "baremetal_core_security_list" "PrivateSubnetAD3" {
+    compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
+    display_name = "Private"
+    vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
+    egress_security_rules = [{
+        protocol = "6"
+        destination = "${var.VPC-CIDR}"
+    }]
+    # TODO: Does this cover ICMP as well? Seems so.
+    ingress_security_rules = [{
+        protocol = "6"
+        source = "${var.PrivateSubnetAD3-CIDR}"
+    },
+    {
+        tcp_options {
+            "max" = 22
+            "min" = 22
+        }
+        protocol = "6"
+        source = "${var.BastionSubnetAD3-CIDR}"
+    },
+    {
+        tcp_options {
+            "max" = 6868
+            "min" = 6868
+        }
+        protocol = "6"
+        source = "{var.BastionSubnetAD3-CIDR}"
+    },
+    {
+        tcp_options {
+            "max" = 25555
+            "min" = 25555
+        }
+        protocol = "6"
+        source = "{var.BastionSubnetAD1-CIDR}"
     }]
 }
 
@@ -120,7 +222,9 @@ resource "baremetal_core_subnet" "PrivateSubnetAD1" {
   compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
   vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
   route_table_id = "${baremetal_core_route_table.CloudFoundryRouteTable.id}"
-  security_list_ids = ["${baremetal_core_security_list.PrivateSubnet.id}"]
+  security_list_ids = ["${baremetal_core_security_list.PrivateSubnetAD1.id}",
+                       "${baremetal_core_security_list.PrivateSubnetAD2.id}",
+                       "${baremetal_core_security_list.PrivateSubnetAD3.id}"]
   provisioner "local-exec" {
     command = "echo Sleeping for 120 seconds...; sleep 120"
   }
@@ -162,7 +266,9 @@ resource "baremetal_core_subnet" "PrivateSubnetAD2" {
   compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
   vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
   route_table_id = "${baremetal_core_route_table.CloudFoundryRouteTable.id}"
-  security_list_ids = ["${baremetal_core_security_list.PrivateSubnet.id}"]
+  security_list_ids = ["${baremetal_core_security_list.PrivateSubnetAD1.id}",
+                       "${baremetal_core_security_list.PrivateSubnetAD2.id}",
+                       "${baremetal_core_security_list.PrivateSubnetAD3.id}"]
   provisioner "local-exec" {
     command = "echo Sleeping for 120 seconds...; sleep 120"
   }
@@ -176,7 +282,9 @@ resource "baremetal_core_subnet" "BastionSubnetAD2" {
   compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
   vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
   route_table_id = "${baremetal_core_route_table.CloudFoundryRouteTable.id}"
-  security_list_ids = ["${baremetal_core_security_list.BastionSubnet.id}"]
+  security_list_ids = ["${baremetal_core_security_list.PrivateSubnetAD1.id}",
+                       "${baremetal_core_security_list.PrivateSubnetAD2.id}",
+                       "${baremetal_core_security_list.PrivateSubnetAD3.id}"]
   provisioner "local-exec" {
     command = "echo Sleeping for 120 seconds...; sleep 120"
   }
