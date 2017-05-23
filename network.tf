@@ -1,30 +1,30 @@
-resource "baremetal_core_virtual_network" "CloudFoundryVCN" {
-    cidr_block = "${var.VPC-CIDR}"
+resource "baremetal_core_virtual_network" "cloudfoundry_vcn" {
+    cidr_block = "${var.vpc_cidr}"
     compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
-    display_name = "CloudFoundryVCN"
+    display_name = "cloudfoundry_vcn"
     dns_label = "cfvcn"
 }
 
-resource "baremetal_core_internet_gateway" "CloudFoundryIG" {
+resource "baremetal_core_internet_gateway" "cloudfoundry_ig" {
     compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
-    display_name = "CloudFoundryIG"
-    vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
+    display_name = "cloudfoundry_ig"
+    vcn_id = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
 }
 
-resource "baremetal_core_route_table" "CloudFoundryRouteTable" {
+resource "baremetal_core_route_table" "cloudfoundry_route_table" {
     compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
-    vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
-    display_name = "CloudFoundryRouteTable"
+    vcn_id = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
+    display_name = "cloudfoundry_route_table"
     route_rules {
         cidr_block = "0.0.0.0/0"
-        network_entity_id = "${baremetal_core_internet_gateway.CloudFoundryIG.id}"
+        network_entity_id = "${baremetal_core_internet_gateway.cloudfoundry_ig.id}"
     }
 }
 
-resource "baremetal_core_security_list" "PublicSubnet" {
+resource "baremetal_core_security_list" "public_subnet" {
     compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
-    display_name = "Public"
-    vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
+    display_name = "public_all"
+    vcn_id = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
     egress_security_rules = [{
         destination = "0.0.0.0/0"
         protocol = "6"
@@ -55,21 +55,21 @@ resource "baremetal_core_security_list" "PublicSubnet" {
     },
     {
         protocol = "6"
-        source = "${var.VPC-CIDR}"
+        source = "${var.vpc_cidr}"
     }]
 }
 
-resource "baremetal_core_security_list" "PrivateSubnetAD1" {
+resource "baremetal_core_security_list" "private_subnet_ad1" {
     compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
-    display_name = "Private"
-    vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
+    display_name = "private_ad1"
+    vcn_id = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
     egress_security_rules = [{
         protocol = "6"
-        destination = "${var.VPC-CIDR}"
+        destination = "${var.vpc_cidr}"
     }]
     ingress_security_rules = [{
         protocol = "6"
-        source = "${var.PrivateSubnetAD1-CIDR}"
+        source = "${var.private_subnet_ad1_cidr}"
     },
     {
         tcp_options {
@@ -77,7 +77,7 @@ resource "baremetal_core_security_list" "PrivateSubnetAD1" {
             "min" = 22
         }
         protocol = "6"
-        source = "${var.BastionSubnetAD1-CIDR}"
+        source = "${var.bastion_subnet_ad1_cidr}"
     },
     {
         tcp_options {
@@ -85,7 +85,7 @@ resource "baremetal_core_security_list" "PrivateSubnetAD1" {
             "min" = 6868
         }
         protocol = "6"
-        source = "${var.BastionSubnetAD1-CIDR}"
+        source = "${var.bastion_subnet_ad1_cidr}"
     },
     {
         tcp_options {
@@ -93,7 +93,7 @@ resource "baremetal_core_security_list" "PrivateSubnetAD1" {
             "min" = 4222
         }
         protocol = "6"
-        source = "${var.BastionSubnetAD1-CIDR}"
+        source = "${var.bastion_subnet_ad1_cidr}"
     },
     {
         tcp_options {
@@ -101,7 +101,7 @@ resource "baremetal_core_security_list" "PrivateSubnetAD1" {
             "min" = 25250
         }
         protocol = "6"
-        source = "${var.BastionSubnetAD1-CIDR}"
+        source = "${var.bastion_subnet_ad1_cidr}"
     },
     {
         tcp_options {
@@ -109,7 +109,7 @@ resource "baremetal_core_security_list" "PrivateSubnetAD1" {
             "min" = 25555
         }
         protocol = "6"
-        source = "${var.BastionSubnetAD1-CIDR}"
+        source = "${var.bastion_subnet_ad1_cidr}"
     },
     {
         tcp_options {
@@ -117,21 +117,21 @@ resource "baremetal_core_security_list" "PrivateSubnetAD1" {
             "min" = 25777
         }
         protocol = "6"
-        source = "${var.BastionSubnetAD1-CIDR}"
+        source = "${var.bastion_subnet_ad1_cidr}"
     }]
 }
 
-resource "baremetal_core_security_list" "PrivateSubnetAD2" {
+resource "baremetal_core_security_list" "private_subnet_ad2" {
     compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
-    display_name = "Private"
-    vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
+    display_name = "private_ad2"
+    vcn_id = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
     egress_security_rules = [{
         protocol = "6"
-        destination = "${var.VPC-CIDR}"
+        destination = "${var.vpc_cidr}"
     }]
     ingress_security_rules = [{
         protocol = "6"
-        source = "${var.PrivateSubnetAD2-CIDR}"
+        source = "${var.private_subnet_ad2_cidr}"
     },
     {
         tcp_options {
@@ -139,7 +139,7 @@ resource "baremetal_core_security_list" "PrivateSubnetAD2" {
             "min" = 22
         }
         protocol = "6"
-        source = "${var.BastionSubnetAD2-CIDR}"
+        source = "${var.bastion_subnet_ad2_cidr}"
     },
     {
         tcp_options {
@@ -147,7 +147,7 @@ resource "baremetal_core_security_list" "PrivateSubnetAD2" {
             "min" = 6868
         }
         protocol = "6"
-        source = "${var.BastionSubnetAD2-CIDR}"
+        source = "${var.bastion_subnet_ad2_cidr}"
     },
     {
         tcp_options {
@@ -155,7 +155,7 @@ resource "baremetal_core_security_list" "PrivateSubnetAD2" {
             "min" = 4222
         }
         protocol = "6"
-        source = "${var.BastionSubnetAD2-CIDR}"
+        source = "${var.bastion_subnet_ad2_cidr}"
     },
     {
         tcp_options {
@@ -163,7 +163,7 @@ resource "baremetal_core_security_list" "PrivateSubnetAD2" {
             "min" = 25250
         }
         protocol = "6"
-        source = "${var.BastionSubnetAD2-CIDR}"
+        source = "${var.bastion_subnet_ad2_cidr}"
     },
     {
         tcp_options {
@@ -171,7 +171,7 @@ resource "baremetal_core_security_list" "PrivateSubnetAD2" {
             "min" = 25555
         }
         protocol = "6"
-        source = "${var.BastionSubnetAD2-CIDR}"
+        source = "${var.bastion_subnet_ad2_cidr}"
     },
     {
         tcp_options {
@@ -179,21 +179,21 @@ resource "baremetal_core_security_list" "PrivateSubnetAD2" {
             "min" = 25777
         }
         protocol = "6"
-        source = "${var.BastionSubnetAD2-CIDR}"
+        source = "${var.bastion_subnet_ad2_cidr}"
     }]
 }
 
-resource "baremetal_core_security_list" "PrivateSubnetAD3" {
+resource "baremetal_core_security_list" "private_subnet_ad3" {
     compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
-    display_name = "Private"
-    vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
+    display_name = "private_ad3"
+    vcn_id = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
     egress_security_rules = [{
         protocol = "6"
-        destination = "${var.VPC-CIDR}"
+        destination = "${var.vpc_cidr}"
     }]
     ingress_security_rules = [{
         protocol = "6"
-        source = "${var.PrivateSubnetAD3-CIDR}"
+        source = "${var.private_subnet_ad3_cidr}"
     },
     {
         tcp_options {
@@ -201,7 +201,7 @@ resource "baremetal_core_security_list" "PrivateSubnetAD3" {
             "min" = 22
         }
         protocol = "6"
-        source = "${var.BastionSubnetAD3-CIDR}"
+        source = "${var.bastion_subnet_ad3_cidr}"
     },
     {
         tcp_options {
@@ -209,7 +209,7 @@ resource "baremetal_core_security_list" "PrivateSubnetAD3" {
             "min" = 6868
         }
         protocol = "6"
-        source = "${var.BastionSubnetAD3-CIDR}"
+        source = "${var.bastion_subnet_ad3_cidr}"
     },
     {
         tcp_options {
@@ -217,7 +217,7 @@ resource "baremetal_core_security_list" "PrivateSubnetAD3" {
             "min" = 4222
         }
         protocol = "6"
-        source = "${var.BastionSubnetAD3-CIDR}"
+        source = "${var.bastion_subnet_ad3_cidr}"
     },
     {
         tcp_options {
@@ -225,7 +225,7 @@ resource "baremetal_core_security_list" "PrivateSubnetAD3" {
             "min" = 25250
         }
         protocol = "6"
-        source = "${var.BastionSubnetAD3-CIDR}"
+        source = "${var.bastion_subnet_ad3_cidr}"
     },
     {
         tcp_options {
@@ -233,7 +233,7 @@ resource "baremetal_core_security_list" "PrivateSubnetAD3" {
             "min" = 25555
         }
         protocol = "6"
-        source = "${var.BastionSubnetAD3-CIDR}"
+        source = "${var.bastion_subnet_ad3_cidr}"
     },
     {
         tcp_options {
@@ -241,14 +241,14 @@ resource "baremetal_core_security_list" "PrivateSubnetAD3" {
             "min" = 25777
         }
         protocol = "6"
-        source = "${var.BastionSubnetAD1-CIDR}"
+        source = "${var.bastion_subnet_ad1_cidr}"
     }]
 }
 
-resource "baremetal_core_security_list" "BastionSubnet" {
+resource "baremetal_core_security_list" "bastion_subnet" {
     compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
-    display_name = "Bastion"
-    vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
+    display_name = "bastion_all"
+    vcn_id = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
     egress_security_rules = [{
         protocol = "6"
         destination = "0.0.0.0/0"
@@ -263,137 +263,137 @@ resource "baremetal_core_security_list" "BastionSubnet" {
     },
     {
         protocol = "6"
-        source = "${var.VPC-CIDR}"
+        source = "${var.vpc_cidr}"
     }]
 }
 
 # TODO: Make whitespace consistent
-resource "baremetal_core_subnet" "PublicSubnetAD1" {
+resource "baremetal_core_subnet" "public_subnet_ad1" {
   availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[0], "name")}"
-  cidr_block = "${var.PublicSubnetAD1-CIDR}"
-  display_name = "PublicSubnetAD1"
+cidr_block = "${var.public_subnet_ad1_cidr}"
+display_name = "public_subnet_ad1"
   dns_label = "cfwebad1"
   compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
-  vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
-  route_table_id = "${baremetal_core_route_table.CloudFoundryRouteTable.id}"
-  security_list_ids = ["${baremetal_core_security_list.PublicSubnet.id}"]
+  vcn_id = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
+  route_table_id = "${baremetal_core_route_table.cloudfoundry_route_table.id}"
+  security_list_ids = ["${baremetal_core_security_list.public_subnet.id}"]
   provisioner "local-exec" {
     command = "echo Sleeping for 120 seconds...; sleep 120"
   }
 }
 
-resource "baremetal_core_subnet" "PrivateSubnetAD1" {
+resource "baremetal_core_subnet" "private_subnet_ad1" {
   availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[0], "name")}"
-  cidr_block = "${var.PrivateSubnetAD1-CIDR}"
-  display_name = "PrivateSubnetAD1"
+  cidr_block = "${var.private_subnet_ad1_cidr}"
+  display_name = "private_subnet_ad1"
   dns_label = "cfprvad1"
   compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
-  vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
-  route_table_id = "${baremetal_core_route_table.CloudFoundryRouteTable.id}"
-  security_list_ids = ["${baremetal_core_security_list.PrivateSubnetAD1.id}",
-                       "${baremetal_core_security_list.PrivateSubnetAD2.id}",
-                       "${baremetal_core_security_list.PrivateSubnetAD3.id}"]
+  vcn_id = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
+  route_table_id = "${baremetal_core_route_table.cloudfoundry_route_table.id}"
+  security_list_ids = ["${baremetal_core_security_list.private_subnet_ad1.id}",
+                       "${baremetal_core_security_list.private_subnet_ad2.id}",
+                       "${baremetal_core_security_list.private_subnet_ad3.id}"]
   provisioner "local-exec" {
     command = "echo Sleeping for 120 seconds...; sleep 120"
   }
 }
 
-resource "baremetal_core_subnet" "BastionSubnetAD1" {
+resource "baremetal_core_subnet" "bastion_subnet_ad1" {
   availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[0], "name")}"
-  cidr_block = "${var.BastionSubnetAD1-CIDR}"
-  display_name = "BastionSubnetAD1"
+  cidr_block = "${var.bastion_subnet_ad1_cidr}"
+  display_name = "bastion_subnet_ad1"
   dns_label = "cfbstad1"
   compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
-  vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
-  route_table_id = "${baremetal_core_route_table.CloudFoundryRouteTable.id}"
-  security_list_ids = ["${baremetal_core_security_list.BastionSubnet.id}"]
+  vcn_id = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
+  route_table_id = "${baremetal_core_route_table.cloudfoundry_route_table.id}"
+  security_list_ids = ["${baremetal_core_security_list.bastion_subnet.id}"]
   provisioner "local-exec" {
     command = "echo Sleeping for 120 seconds...; sleep 120"
   }
 }
 
-resource "baremetal_core_subnet" "PublicSubnetAD2" {
+resource "baremetal_core_subnet" "public_subnet_ad2" {
   availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[1], "name")}"
-  cidr_block = "${var.PublicSubnetAD2-CIDR}"
-  display_name = "PublicSubnetAD2"
+  cidr_block = "${var.public_subnet_ad2_cidr}"
+  display_name = "public_subnet_ad2"
   dns_label = "cfwebad2"
   compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
-  vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
-  route_table_id = "${baremetal_core_route_table.CloudFoundryRouteTable.id}"
-  security_list_ids = ["${baremetal_core_security_list.PublicSubnet.id}"]
+  vcn_id = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
+  route_table_id = "${baremetal_core_route_table.cloudfoundry_route_table.id}"
+  security_list_ids = ["${baremetal_core_security_list.public_subnet.id}"]
   provisioner "local-exec" {
     command = "echo Sleeping for 120 seconds...; sleep 120"
   }
 }
 
-resource "baremetal_core_subnet" "PrivateSubnetAD2" {
+resource "baremetal_core_subnet" "private_subnet_ad2" {
   availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[1], "name")}"
-  cidr_block = "${var.PrivateSubnetAD2-CIDR}"
-  display_name = "PrivateSubnetAD2"
+  cidr_block = "${var.private_subnet_ad2_cidr}"
+  display_name = "private_subnet_ad2"
   dns_label = "cfprvad2"
   compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
-  vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
-  route_table_id = "${baremetal_core_route_table.CloudFoundryRouteTable.id}"
-  security_list_ids = ["${baremetal_core_security_list.PrivateSubnetAD1.id}",
-                       "${baremetal_core_security_list.PrivateSubnetAD2.id}",
-                       "${baremetal_core_security_list.PrivateSubnetAD3.id}"]
+  vcn_id = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
+  route_table_id = "${baremetal_core_route_table.cloudfoundry_route_table.id}"
+  security_list_ids = ["${baremetal_core_security_list.private_subnet_ad1.id}",
+                       "${baremetal_core_security_list.private_subnet_ad2.id}",
+                       "${baremetal_core_security_list.private_subnet_ad3.id}"]
   provisioner "local-exec" {
     command = "echo Sleeping for 120 seconds...; sleep 120"
   }
 }
 
-resource "baremetal_core_subnet" "BastionSubnetAD2" {
+resource "baremetal_core_subnet" "bastion_subnet_ad2" {
   availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[1], "name")}"
-  cidr_block = "${var.BastionSubnetAD2-CIDR}"
-  display_name = "BastionSubnetAD2"
+  cidr_block = "${var.bastion_subnet_ad2_cidr}"
+  display_name = "bastion_subnet_ad2"
   dns_label = "cfbstad2"
   compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
-  vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
-  route_table_id = "${baremetal_core_route_table.CloudFoundryRouteTable.id}"
-  security_list_ids = ["${baremetal_core_security_list.BastionSubnet.id}"]
+  vcn_id = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
+  route_table_id = "${baremetal_core_route_table.cloudfoundry_route_table.id}"
+  security_list_ids = ["${baremetal_core_security_list.bastion_subnet.id}"]
   provisioner "local-exec" {
     command = "echo Sleeping for 120 seconds...; sleep 120"
   }
 }
 
-resource "baremetal_core_subnet" "PublicSubnetAD3" {
+resource "baremetal_core_subnet" "public_subnet_ad3" {
   availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[2], "name")}"
-  cidr_block = "${var.PublicSubnetAD3-CIDR}"
-  display_name = "PublicSubnetAD3"
+  cidr_block = "${var.public_subnet_ad3_cidr}"
+  display_name = "public_subnet_ad3"
   dns_label = "cfwebad3"
   compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
-  vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
-  route_table_id = "${baremetal_core_route_table.CloudFoundryRouteTable.id}"
-  security_list_ids = ["${baremetal_core_security_list.PublicSubnet.id}"]
+  vcn_id = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
+  route_table_id = "${baremetal_core_route_table.cloudfoundry_route_table.id}"
+  security_list_ids = ["${baremetal_core_security_list.public_subnet.id}"]
   provisioner "local-exec" {
     command = "echo Sleeping for 120 seconds...; sleep 120"
   }
 }
-resource "baremetal_core_subnet" "PrivateSubnetAD3" {
+resource "baremetal_core_subnet" "private_subnet_ad3" {
   availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[2], "name")}"
-  cidr_block = "${var.PrivateSubnetAD3-CIDR}"
-  display_name = "PrivateSubnetAD3"
+  cidr_block = "${var.private_subnet_ad3_cidr}"
+  display_name = "private_subnet_ad3"
   dns_label = "cfprvad3"
   compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
-  vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
-  route_table_id = "${baremetal_core_route_table.CloudFoundryRouteTable.id}"
-  security_list_ids = ["${baremetal_core_security_list.PrivateSubnetAD1.id}",
-                       "${baremetal_core_security_list.PrivateSubnetAD2.id}",
-                       "${baremetal_core_security_list.PrivateSubnetAD3.id}"]
+  vcn_id = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
+  route_table_id = "${baremetal_core_route_table.cloudfoundry_route_table.id}"
+  security_list_ids = ["${baremetal_core_security_list.private_subnet_ad1.id}",
+                       "${baremetal_core_security_list.private_subnet_ad2.id}",
+                       "${baremetal_core_security_list.private_subnet_ad3.id}"]
   provisioner "local-exec" {
     command = "echo Sleeping for 120 seconds...; sleep 120"
   }
 }
 
-resource "baremetal_core_subnet" "BastionSubnetAD3" {
+resource "baremetal_core_subnet" "bastion_subnet_ad3" {
   availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[2], "name")}"
-  cidr_block = "${var.BastionSubnetAD3-CIDR}"
-  display_name = "BastionSubnetAD3"
+  cidr_block = "${var.bastion_subnet_ad3_cidr}"
+  display_name = "bastion_subnet_ad3"
   dns_label = "cfbstad3"
   compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
-  vcn_id = "${baremetal_core_virtual_network.CloudFoundryVCN.id}"
-  route_table_id = "${baremetal_core_route_table.CloudFoundryRouteTable.id}"
-  security_list_ids = ["${baremetal_core_security_list.BastionSubnet.id}"]
+  vcn_id = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
+  route_table_id = "${baremetal_core_route_table.cloudfoundry_route_table.id}"
+  security_list_ids = ["${baremetal_core_security_list.bastion_subnet.id}"]
   provisioner "local-exec" {
     command = "echo Sleeping for 120 seconds...; sleep 120"
   }

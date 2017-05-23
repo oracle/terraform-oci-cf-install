@@ -42,46 +42,46 @@ variable "dyn_customer_name" {}
 variable "dyn_username" {}
 variable "dyn_password" {}
 
-variable "VPC-CIDR" {
+variable "vpc_cidr" {
     default = "10.0.0.0/16"
 }
 
 # Networking
 
 # TODO: Use consistent case convention for network configuration
-variable "PublicSubnetAD1-CIDR" {
+variable "public_subnet_ad1_cidr" {
     default = "10.0.1.0/24"
 }
 
-variable "PrivateSubnetAD1-CIDR" {
+variable "private_subnet_ad1_cidr" {
     default = "10.0.2.0/24"
 }
 
-variable "BastionSubnetAD1-CIDR" {
+variable "bastion_subnet_ad1_cidr" {
     default = "10.0.3.0/24"
 }
 
-variable "PublicSubnetAD2-CIDR" {
+variable "public_subnet_ad2_cidr" {
     default = "10.0.4.0/24"
 }
 
-variable "PrivateSubnetAD2-CIDR" {
+variable "private_subnet_ad2_cidr" {
     default = "10.0.5.0/24"
 }
 
-variable "BastionSubnetAD2-CIDR" {
+variable "bastion_subnet_ad2_cidr" {
     default = "10.0.6.0/24"
 }
 
-variable "PublicSubnetAD3-CIDR" {
+variable "public_subnet_ad3_cidr" {
     default = "10.0.7.0/24"
 }
 
-variable "PrivateSubnetAD3-CIDR" {
+variable "private_subnet_ad3_cidr" {
     default = "10.0.8.0/24"
 }
 
-variable "BastionSubnetAD3-CIDR" {
+variable "bastion_subnet_ad3_cidr" {
     default = "10.0.9.0/24"
 }
 
@@ -96,30 +96,26 @@ variable "bastion_image_id" {
     default = "ocid1.image.oc1.phx.aaaaaaaaxsufrpzn72dvhry5swbuwnuldcn3eko3cx6g7z4tw4qfwkq2zkra"
 }
 
-variable "timeout_minutes" {
+variable "bastion_boot_timeout_minutes" {
     default = 5
 }
 
-variable "InstanceShape" {
+variable "bastion_instance_shape" {
     default = "VM.Standard1.2"
 }
 
-variable "InstanceOS" {
+variable "bastion_instance_os" {
     default = "Ubuntu"
 }
 
-variable "InstanceOSVersion" {
+variable "bastion_instance_os_version" {
     default = "16.04"
-}
-
-variable "2TB" {
-    default = "2097152"
 }
 
 variable "256GB" {
     default = "262144"
 }
 
-variable "BootStrapFile" {
+variable "bastion_bootstrap_file" {
     default = "./userdata/bootstrap"
 }
