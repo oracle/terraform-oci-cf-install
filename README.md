@@ -15,7 +15,15 @@ Oracle Bare Metal Cloud Service. It will configure the following:
 
 ### Configuring Terraform to work with Oracle BMC
 
-TBD
+First, install Terraform v0.9.8 or later.  On OSX, you can use HomeBrew:
+
+    $ brew install terraform
+
+Next, download the latest release of the Terraform Oracle Bare Metal Cloud Provider from GitHb:
+
+    https://github.com/oracle/terraform-provider-baremetal/releases
+
+Place the binary somewhere in your path (probably /usr/local/bin).
 
 ### Using this project
 
