@@ -4,9 +4,3 @@ provider "baremetal" {
     fingerprint      = "${var.oracle_bmcs_fingerprint}"
     private_key_path = "${var.oracle_bmcs_private_key_path}"
 }
-
-provider "dyn" {
-    customer_name = "${var.dyn_customer_name}"
-    username      = "${var.dyn_username}"
-    password      = "${var.dyn_password}"
-}
