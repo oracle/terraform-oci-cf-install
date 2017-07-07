@@ -1,30 +1,30 @@
 resource "baremetal_core_virtual_network" "cloudfoundry_vcn" {
-    cidr_block = "${var.vpc_cidr}"
+    cidr_block     = "${var.vpc_cidr}"
     compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
-    display_name = "cloudfoundry_vcn"
-    dns_label = "cfvcn"
+    display_name   = "cloudfoundry_vcn"
+    dns_label      = "cfvcn"
 }
 
 resource "baremetal_core_internet_gateway" "cloudfoundry_ig" {
     compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
-    display_name = "cloudfoundry_ig"
-    vcn_id = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
+    display_name   = "cloudfoundry_ig"
+    vcn_id         = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
 }
 
 resource "baremetal_core_route_table" "cloudfoundry_route_table" {
     compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
-    vcn_id = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
-    display_name = "cloudfoundry_route_table"
+    vcn_id         = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
+    display_name   = "cloudfoundry_route_table"
     route_rules {
-        cidr_block = "0.0.0.0/0"
+        cidr_block        = "0.0.0.0/0"
         network_entity_id = "${baremetal_core_internet_gateway.cloudfoundry_ig.id}"
     }
 }
 
 resource "baremetal_core_security_list" "public_subnet" {
     compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
-    display_name = "public_all"
-    vcn_id = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
+    display_name   = "public_all"
+    vcn_id         = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
     egress_security_rules = [{
         destination = "0.0.0.0/0"
         protocol = "6"
