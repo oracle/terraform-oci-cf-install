@@ -114,3 +114,38 @@ variable "private_subnet_ad3_cidr" {
 variable "bastion_subnet_ad3_cidr" {
     default = "10.0.9.0/24"
 }
+
+# Bastion VM
+
+# Choose an Availability Domain for the Bastion instance.
+variable "bastion_ad" {
+    default = "1"
+}
+
+variable "bastion_image_id" {
+    default = "ocid1.image.oc1.phx.aaaaaaaaxsufrpzn72dvhry5swbuwnuldcn3eko3cx6g7z4tw4qfwkq2zkra"
+}
+
+variable "bastion_boot_timeout_minutes" {
+    default = 5
+}
+
+variable "bastion_instance_shape" {
+    default = "VM.Standard1.2"
+}
+
+variable "bastion_instance_os" {
+    default = "Ubuntu"
+}
+
+variable "bastion_instance_os_version" {
+    default = "16.04"
+}
+
+variable "256GB" {
+    default = "262144"
+}
+
+variable "bastion_bootstrap_file" {
+    default = "./userdata/bootstrap"
+}
