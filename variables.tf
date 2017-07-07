@@ -37,13 +37,12 @@ variable "bosh_ssh_username" {
     default = "ubuntu"
 }
 
-variable "bastion_subnet_ad3_cidr" {
-    default = "10.0.9.0/24"
-}
-
 # Networking
 
-# TODO: Use consistent case convention for network configuration
+variable "vpc_cidr" {
+    default = "10.0.0.0/16"
+}
+
 variable "public_subnet_ad1_cidr" {
     default = "10.0.1.0/24"
 }
