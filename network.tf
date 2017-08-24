@@ -228,8 +228,7 @@ resource "baremetal_core_subnet" "private_subnet_ad1" {
   vcn_id              = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
   route_table_id      = "${baremetal_core_route_table.cloudfoundry_route_table.id}"
   security_list_ids   = ["${baremetal_core_security_list.private_subnet_ad1.id}",
-                         "${baremetal_core_security_list.private_subnet_ad2.id}",
-                         "${baremetal_core_security_list.private_subnet_ad3.id}"]
+                         "${baremetal_core_security_list.private_subnet_ad2.id}"]
   prohibit_public_ip_on_vnic = true
 }
 
@@ -269,8 +268,7 @@ resource "baremetal_core_subnet" "private_subnet_ad2" {
   vcn_id              = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
   route_table_id      = "${baremetal_core_route_table.cloudfoundry_route_table.id}"
   security_list_ids   = ["${baremetal_core_security_list.private_subnet_ad1.id}",
-                         "${baremetal_core_security_list.private_subnet_ad2.id}",
-                         "${baremetal_core_security_list.private_subnet_ad3.id}"]
+                         "${baremetal_core_security_list.private_subnet_ad2.id}"]
   prohibit_public_ip_on_vnic = true
 }
 
