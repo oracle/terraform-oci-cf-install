@@ -95,7 +95,7 @@ variable "bastion_boot_timeout_minutes" {
 }
 
 variable "bastion_instance_shape" {
-    default = "VM.Standard1.2"
+    default = "VM.Standard1.1"
 }
 
 variable "bastion_instance_os" {
