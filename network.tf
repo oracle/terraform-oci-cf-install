@@ -202,6 +202,14 @@ resource "baremetal_core_security_list" "bastion_subnet" {
     {
         protocol = "6"
         source = "${var.vpc_cidr}"
+    },
+    {
+        tcp_options {
+            "max" = 6901
+            "min" = 6901
+        }
+        protocol = "6"
+        source = "${var.private_subnet_ad1_cidr}"
     }]
 }
 

@@ -6,5 +6,7 @@ keys/bosh-api-private-key.pem
 keys/bosh-api-public-key.pem
 keys/bosh-ssh.pem
 keys/bosh-ssh.pub
+keys/bosh-ssh
 terraform.tfstate
 terraform.tfstate.backup
+my-env-vars.sh
