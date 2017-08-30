@@ -52,7 +52,7 @@ Second, create a ssh-key pair.  The public key from that pair will be copied
 to the bastion instance allowing you to ssh into hat instance later. 
 
 ```bash
-$ ssh-keygen -f keys/bosh-ssh
+$ ssh-keygen -f keys/bosh-ssh.pem
 ```
  
 Once all the steps above are completed your environment variables have been configured, you may run `terraform
