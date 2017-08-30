@@ -3,8 +3,3 @@ export TF_VAR_oracle_bmcs_tenancy_ocid="<tenant OCID>"
 export TF_VAR_oracle_bmcs_user_ocid="<user OCID>"
 export TF_VAR_oracle_bmcs_fingerprint="<api key fingerprint>"
 export TF_VAR_oracle_bmcs_private_key_path="<path/to/api/pem/file>"
-
-### Dyn
-export TF_VAR_dyn_customer_name="<customer name>"
-export TF_VAR_dyn_username="<user name>"
-export TF_VAR_dyn_password="<password>"
