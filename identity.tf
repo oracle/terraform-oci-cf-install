@@ -23,3 +23,15 @@ resource "baremetal_identity_api_key" "bosh_api_key" {
     user_id = "${baremetal_identity_user.bosh_user.id}"
     key_value = "${file(var.bosh_api_public_key)}"
 }
+
+resource "baremetal_identity_policy" "bosh_policy" {
+    name = "bosh-policy"
+    description = "bosh policies"
+    compartment_id = "${baremetal_identity_compartment.bosh_compartment.id}"
+    statements = [
+        "allow group ${baremetal_identity_group.bosh_group.name} to manage instance-family in compartment ${baremetal_identity_compartment.bosh_compartment.name}",
+        "allow group ${baremetal_identity_group.bosh_group.name} to manage volume-family in compartment ${baremetal_identity_compartment.bosh_compartment.name}",
+        "allow group ${baremetal_identity_group.bosh_group.name} to manage object-family in compartment ${baremetal_identity_compartment.bosh_compartment.name}",
+        "allow group ${baremetal_identity_group.bosh_group.name} to manage virtual-network-family in compartment ${baremetal_identity_compartment.bosh_compartment.name}"
+    ]
+}
