@@ -42,7 +42,7 @@ resource "null_resource" "remote-exec" {
         "sudo mkdir /mnt/bosh",
         "sudo chown -R ubuntu:ubuntu /mnt/bosh",
         "sudo ln -s /mnt/bosh /home/ubuntu/bosh",
-        "echo '/dev/sdb    /mnt    ext4      defaults,noatime,_netdev      0      2' | sudo tee --append /etc/fstab > /dev/null",
+        "echo '/dev/sdb    /mnt/bosh    ext4      defaults,noatime,_netdev      0      2' | sudo tee --append /etc/fstab > /dev/null",
         "chmod +x ~/install_deps.sh"]
     }
 }
