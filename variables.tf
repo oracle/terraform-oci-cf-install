@@ -31,10 +31,10 @@ variable "bosh_ssh_public_key" {
     default = "./keys/bosh-ssh.pub"
 }
 variable "bosh_ssh_private_key" {
-    default = "./keys/bosh-ssh.pem"
+    default = "./keys/bosh-ssh"
 }
 variable "bosh_ssh_username" {
-    default = "ubuntu"
+    default = "opc"
 }
 
 # Networking

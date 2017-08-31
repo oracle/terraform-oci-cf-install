@@ -46,14 +46,29 @@ First, you will want to run the included script `bosh-api-key-gen.sh`.  Confusin
 separate key from the BMC API Key mentioned above, which is used by Terraform to communicate with
 BMC.  This script generates the keys that BOSH will use to communicate with BMC.
 
-###### Create an ssh key pair 
+###### Create an ssh key pair
 
-Second, create a ssh-key pair.  The public key from that pair will be copied 
-to the bastion instance allowing you to ssh into hat instance later. 
+Second, create a ssh-key pair.  The public key from that pair will be copied
+to the bastion instance allowing you to ssh into hat instance later.
 
 ```bash
-$ ssh-keygen -f keys/bosh-ssh.pem
+$ ssh-keygen -f keys/bosh-ssh
 ```
- 
+
 Once all the steps above are completed your environment variables have been configured, you may run `terraform
 apply` to have Terraform deploy the environment.
+
+###### Post Provisioning
+
+The bastion VM will come with the BOSH v2 CLI pre-installed, and will also manage the iSCSI connection for the
+block device.  In order to preserve data in case of a failure and subsequent `terraform apply` run, no effort
+is taken to format the attached block device, which is at `/dev/sdb`.  Upon successful deployment of the bastion
+VM, you may format and mount the block device manually.
+
+```bash
+$ sudo mkfs.ext4 /dev/sdb
+$ sudo mount -a
+```
+
+In the home directory, the `bosh` folder points to the mounted block device, so you may keep your releases,
+stemcells and deployments there for safe keeping.

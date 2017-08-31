@@ -1,5 +1,0 @@
-#!/bin/bash
-set -e
-yum update -y
-sudo curl -o /usr/local/bin/bosh https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-2.0.26-linux-amd64
-sudo chmod +x /usr/local/bin/bosh
