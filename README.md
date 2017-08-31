@@ -60,12 +60,13 @@ apply` to have Terraform deploy the environment.
 
 ###### Post Provisioning
 
-The bastion VM will come with the BOSH v2 CLI pre-installed, and will also manage the iSCSI connection for the
+The bastion VM will come a script to install the BOSH v2 CLI, and will also manage the iSCSI connection for the
 block device.  In order to preserve data in case of a failure and subsequent `terraform apply` run, no effort
 is taken to format the attached block device, which is at `/dev/sdb`.  Upon successful deployment of the bastion
 VM, you may format and mount the block device manually.
 
 ```bash
+$ ./install_deps.sh
 $ sudo mkfs.ext4 /dev/sdb
 $ sudo mount -a
 ```
