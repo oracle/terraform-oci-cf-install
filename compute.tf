@@ -15,7 +15,7 @@ resource "null_resource" "remote-exec" {
     depends_on = ["baremetal_core_instance.bosh_cli",
                   "baremetal_core_volume_attachment.bosh_cli_vol_attach"]
 
-    provisioner "remote-exec" {
+    provisioner "file" {
         connection {
           agent       = false
           timeout     = "30m"
@@ -23,7 +23,8 @@ resource "null_resource" "remote-exec" {
           user        = "ubuntu"
           private_key = "${file(var.bosh_ssh_private_key)}"
         }
-        script = "./bootstrap/install_deps.sh"
+        source = "./bootstrap/install_deps.sh"
+        destination = "~/install_deps.sh"
     }
 
     provisioner "remote-exec" {
@@ -41,6 +42,7 @@ resource "null_resource" "remote-exec" {
         "sudo mkdir /mnt/bosh",
         "sudo chown -R ubuntu:ubuntu /mnt/bosh",
         "sudo ln -s /mnt/bosh /home/ubuntu/bosh",
-        "echo '/dev/sdb    /mnt    ext4      defaults,noatime,_netdev      0      2' | sudo tee --append /etc/fstab > /dev/null"]
+        "echo '/dev/sdb    /mnt    ext4      defaults,noatime,_netdev      0      2' | sudo tee --append /etc/fstab > /dev/null",
+        "chmod +x ~/install_deps.sh"]
     }
 }
