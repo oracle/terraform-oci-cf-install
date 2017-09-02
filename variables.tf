@@ -34,7 +34,7 @@ variable "bosh_ssh_private_key" {
     default = "./keys/bosh-ssh"
 }
 variable "bosh_ssh_username" {
-    default = "opc"
+    default = "ubuntu"
 }
 
 # Networking
@@ -47,36 +47,23 @@ variable "public_subnet_ad1_cidr" {
     default = "10.0.1.0/24"
 }
 
-variable "private_subnet_ad1_cidr" {
+variable "bastion_subnet_ad1_cidr" {
     default = "10.0.2.0/24"
 }
-
-variable "bastion_subnet_ad1_cidr" {
+variable "director_subnet_ad1_cidr" {
     default = "10.0.3.0/24"
 }
 
-variable "public_subnet_ad2_cidr" {
+variable "private_subnet_ad1_cidr" {
     default = "10.0.4.0/24"
 }
 
-variable "private_subnet_ad2_cidr" {
+variable "public_subnet_ad2_cidr" {
     default = "10.0.5.0/24"
 }
 
-variable "bastion_subnet_ad2_cidr" {
+variable "private_subnet_ad2_cidr" {
     default = "10.0.6.0/24"
-}
-
-variable "public_subnet_ad3_cidr" {
-    default = "10.0.7.0/24"
-}
-
-variable "private_subnet_ad3_cidr" {
-    default = "10.0.8.0/24"
-}
-
-variable "bastion_subnet_ad3_cidr" {
-    default = "10.0.9.0/24"
 }
 
 # Bastion VM
