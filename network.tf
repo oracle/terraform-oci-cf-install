@@ -65,7 +65,7 @@ resource "baremetal_core_security_list" "private_subnet_ad1" {
     vcn_id = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
     egress_security_rules = [{
         protocol = "6"
-        destination = "${var.vpc_cidr}"
+        destination = "0.0.0.0/0"
     }]
     ingress_security_rules = [{
         protocol = "6"
@@ -127,7 +127,7 @@ resource "baremetal_core_security_list" "private_subnet_ad2" {
     vcn_id = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
     egress_security_rules = [{
         protocol = "6"
-        destination = "${var.vpc_cidr}"
+        destination = "0.0.0.0/0"
     }]
     ingress_security_rules = [{
         protocol = "6"
