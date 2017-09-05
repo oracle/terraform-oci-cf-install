@@ -209,6 +209,14 @@ resource "baremetal_core_security_list" "private_subnet" {
     },
     {
         tcp_options {
+            "max" = 22
+            "min" = 22
+        }
+        protocol = "6"
+        source = "${var.director_subnet_ad1_cidr}"
+    },
+    {
+        tcp_options {
             "max" = 6868
             "min" = 6868
         }
