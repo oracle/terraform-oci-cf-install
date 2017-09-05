@@ -86,6 +86,15 @@ resource "baremetal_core_security_list" "bastion_subnet" {
         }
         protocol = "6"
         source = "${var.director_subnet_ad1_cidr}"
+    },
+    {
+        protocol  = 1
+        source    = "${var.vpc_cidr}"
+
+        icmp_options {
+          "type" = 3
+          "code" = 4
+        }
     }]
 }
 
@@ -148,6 +157,15 @@ resource "baremetal_core_security_list" "director_subnet" {
         }
         protocol = "6"
         source = "${var.bastion_subnet_ad1_cidr}"
+    },
+    {
+        protocol  = 1
+        source    = "${var.vpc_cidr}"
+
+        icmp_options {
+          "type" = 3
+          "code" = 4
+        }
     }]
 }
 
@@ -174,6 +192,15 @@ resource "baremetal_core_security_list" "private_subnet" {
         }
         protocol = "6"
         source = "${var.bastion_subnet_ad1_cidr}"
+    },
+    {
+        protocol  = 1
+        source    = "${var.vpc_cidr}"
+
+        icmp_options {
+          "type" = 3
+          "code" = 4
+        }
     }]
 }
 
@@ -213,7 +240,7 @@ resource "baremetal_core_subnet" "director_subnet_ad1" {
   vcn_id              = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
   route_table_id      = "${baremetal_core_route_table.cloudfoundry_route_table.id}"
   security_list_ids   = ["${baremetal_core_security_list.director_subnet.id}"]
-  prohibit_public_ip_on_vnic = true
+  prohibit_public_ip_on_vnic = false # https://jira.aka.lgl.grungy.us/browse/CF-229
 }
 
 resource "baremetal_core_subnet" "private_subnet_ad1" {
