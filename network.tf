@@ -66,6 +66,10 @@ resource "baremetal_core_security_list" "bastion_subnet" {
     egress_security_rules = [{
         protocol = "6"
         destination = "0.0.0.0/0"
+    },
+    {
+        protocol  = "1"
+        destination = "0.0.0.0/0"
     }]
     ingress_security_rules = [{
         tcp_options {
@@ -88,13 +92,8 @@ resource "baremetal_core_security_list" "bastion_subnet" {
         source = "${var.director_subnet_ad1_cidr}"
     },
     {
-        protocol  = 1
+        protocol  = "1"
         source    = "${var.vpc_cidr}"
-
-        icmp_options {
-          "type" = 3
-          "code" = 4
-        }
     }]
 }
 
@@ -104,6 +103,10 @@ resource "baremetal_core_security_list" "director_subnet" {
     vcn_id = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
     egress_security_rules = [{
         protocol = "6"
+        destination = "0.0.0.0/0"
+    },
+    {
+        protocol = "1"
         destination = "0.0.0.0/0"
     }]
     ingress_security_rules = [{
@@ -124,7 +127,7 @@ resource "baremetal_core_security_list" "director_subnet" {
             "min" = 4222
         }
         protocol = "6"
-        source = "${var.bastion_subnet_ad1_cidr}"
+        source   = "${var.vpc_cidr}"
     },
     {
         tcp_options {
@@ -132,7 +135,7 @@ resource "baremetal_core_security_list" "director_subnet" {
             "min" = 6868
         }
         protocol = "6"
-        source = "${var.bastion_subnet_ad1_cidr}"
+        source   = "${var.vpc_cidr}"
     },
     {
         tcp_options {
@@ -140,7 +143,7 @@ resource "baremetal_core_security_list" "director_subnet" {
             "min" = 25250
         }
         protocol = "6"
-        source = "${var.bastion_subnet_ad1_cidr}"
+        source   = "${var.vpc_cidr}"
     },
     {
         tcp_options {
@@ -148,7 +151,7 @@ resource "baremetal_core_security_list" "director_subnet" {
             "min" = 25555
         }
         protocol = "6"
-        source = "${var.bastion_subnet_ad1_cidr}"
+        source   = "${var.vpc_cidr}"
     },
     {
         tcp_options {
@@ -156,16 +159,11 @@ resource "baremetal_core_security_list" "director_subnet" {
             "min" = 25777
         }
         protocol = "6"
-        source = "${var.bastion_subnet_ad1_cidr}"
+        source   = "${var.vpc_cidr}"
     },
     {
-        protocol  = 1
-        source    = "${var.vpc_cidr}"
-
-        icmp_options {
-          "type" = 3
-          "code" = 4
-        }
+        protocol = "1"
+        source   = "${var.vpc_cidr}"
     }]
 }
 
@@ -175,6 +173,14 @@ resource "baremetal_core_security_list" "private_subnet" {
     vcn_id = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
     egress_security_rules = [{
         protocol = "6"
+        destination = "0.0.0.0/0"
+    },
+    {
+        protocol = "17"
+        destination = "0.0.0.0/0"
+    },
+    {
+        protocol  = "1"
         destination = "0.0.0.0/0"
     }]
     ingress_security_rules = [{
@@ -202,13 +208,16 @@ resource "baremetal_core_security_list" "private_subnet" {
         source = "${var.bastion_subnet_ad1_cidr}"
     },
     {
-        protocol  = 1
-        source    = "${var.vpc_cidr}"
-
-        icmp_options {
-          "type" = 3
-          "code" = 4
+        tcp_options {
+            "max" = 6868
+            "min" = 6868
         }
+        protocol = "6"
+        source = "${var.director_subnet_ad1_cidr}"
+    },
+    {
+        protocol  = "1"
+        source    = "${var.vpc_cidr}"
     }]
 }
 
