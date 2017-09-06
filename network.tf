@@ -139,6 +139,14 @@ resource "baremetal_core_security_list" "director_subnet" {
     },
     {
         tcp_options {
+            "max" = 8443
+            "min" = 8443
+        }
+        protocol = "6"
+        source   = "${var.vpc_cidr}"
+    },
+    {
+        tcp_options {
             "max" = 25250
             "min" = 25250
         }
