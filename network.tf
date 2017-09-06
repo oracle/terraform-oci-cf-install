@@ -28,6 +28,10 @@ resource "baremetal_core_security_list" "public_subnet" {
     egress_security_rules = [{
         destination = "0.0.0.0/0"
         protocol = "6"
+    },
+    {
+        destination = "0.0.0.0/0"
+        protocol = "6"
     }]
     ingress_security_rules = [{
         tcp_options {
