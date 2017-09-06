@@ -28,6 +28,9 @@ resource "null_resource" "remote-exec" {
     }
 
     provisioner "remote-exec" {
+
+        on_failure = "continue"
+
         connection {
           agent       = false
           timeout     = "30m"
