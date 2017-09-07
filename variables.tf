@@ -4,6 +4,12 @@ variable "oracle_bmcs_user_ocid" {}
 variable "oracle_bmcs_fingerprint" {}
 variable "oracle_bmcs_private_key_path" {}
 
+# Cloud services
+variable oracle_bmcs_region {
+    default = "us-phoenix-1"
+}
+
+
 # Identity
 variable "bosh_compartment_name" {
     default = "bosh"
