@@ -106,6 +106,10 @@ resource "baremetal_core_security_list" "director_subnet" {
         source = "${var.director_subnet_ad1_cidr}"
     },
     {
+        protocol = "1"
+        source   = "${var.vpc_cidr}"
+    },
+    {
         tcp_options {
             "max" = 22
             "min" = 22
@@ -159,10 +163,6 @@ resource "baremetal_core_security_list" "director_subnet" {
             "min" = 25777
         }
         protocol = "6"
-        source   = "${var.vpc_cidr}"
-    },
-    {
-        protocol = "1"
         source   = "${var.vpc_cidr}"
     }]
 }
