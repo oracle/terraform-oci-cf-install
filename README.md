@@ -41,22 +41,23 @@ information:
 
 ### Deploying the BOSH Bastion using Terraform
 
-###### Create an API signing key
-First, you will want to run the included script `bosh-api-key-gen.sh`.  Confusingly, this is a
+###### Create an API signing key, SSH key pair, and SSL certificates for Load Balancers.
+
+First, you will want to run the included script `bosh-key-gen.sh`.  Confusingly, this is a
 separate key from the BMC API Key mentioned above, which is used by Terraform to communicate with
-BMC.  This script generates the keys that BOSH will use to communicate with BMC.
-
-###### Create an ssh key pair
-
-Second, create a ssh-key pair.  The public key from that pair will be copied
-to the bastion instance allowing you to ssh into hat instance later.
-
-```bash
-$ ssh-keygen -f keys/bosh-ssh
-```
+BMC.  This script generates the keys that BOSH will use to communicate with BMC, as well as
+an SSH key pair for shell access to the bastion instance, and SSL certificates that will be
+installed for the Load Balancers.
 
 Once all the steps above are completed your environment variables have been configured, you may run `terraform
 apply` to have Terraform deploy the environment.
+
+###### Login to the BOSH Bastion using SSH
+
+The IP address of the instance will be output at the end of a successful `terraform apply`. Use this address
+and the SSH key pair we generated earlier to access the instance:
+
+`ssh -i keys/bosh-ssh ubuntu@<your IP address>`
 
 ###### Post Provisioning
 
