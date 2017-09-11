@@ -27,7 +27,7 @@ resource "baremetal_core_security_list" "public_subnet" {
     vcn_id         = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
     egress_security_rules = [{
         destination = "0.0.0.0/0"
-        protocol = "6"
+        protocol = "all"
     }]
     ingress_security_rules = [{
         tcp_options {
@@ -64,11 +64,7 @@ resource "baremetal_core_security_list" "bastion_subnet" {
     display_name = "bastion_all"
     vcn_id = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
     egress_security_rules = [{
-        protocol = "6"
-        destination = "0.0.0.0/0"
-    },
-    {
-        protocol  = "1"
+        protocol = "all"
         destination = "0.0.0.0/0"
     }]
     ingress_security_rules = [{
@@ -102,11 +98,7 @@ resource "baremetal_core_security_list" "director_subnet" {
     display_name = "director_all"
     vcn_id = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
     egress_security_rules = [{
-        protocol = "6"
-        destination = "0.0.0.0/0"
-    },
-    {
-        protocol = "1"
+        protocol = "all"
         destination = "0.0.0.0/0"
     }]
     ingress_security_rules = [{
@@ -180,32 +172,25 @@ resource "baremetal_core_security_list" "private_subnet" {
     display_name = "private_all"
     vcn_id = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
     egress_security_rules = [{
-        protocol = "6"
-        destination = "0.0.0.0/0"
-    },
-    {
-        protocol = "17"
-        destination = "0.0.0.0/0"
-    },
-    {
-        protocol  = "1"
+        protocol = "all"
         destination = "0.0.0.0/0"
     }]
+
     ingress_security_rules = [{
-        protocol = "6"
+        protocol  = "1"
+        source    = "${var.vpc_cidr}"
+    },
+    {
+        protocol = "all"
         source = "${var.private_subnet_ad1_cidr}"
     },
     {
-        protocol = "6"
+        protocol = "all"
         source = "${var.private_subnet_ad2_cidr}"
     },
     {
-        protocol = "17"
-        source = "${var.private_subnet_ad1_cidr}"
-    },
-    {
-        protocol = "17"
-        source = "${var.private_subnet_ad2_cidr}"
+        protocol = "all"
+        source = "${var.private_subnet_ad3_cidr}"
     },
     {
         tcp_options {
@@ -232,8 +217,52 @@ resource "baremetal_core_security_list" "private_subnet" {
         source = "${var.director_subnet_ad1_cidr}"
     },
     {
-        protocol  = "1"
-        source    = "${var.vpc_cidr}"
+        tcp_options {
+            "max" = 80
+            "min" = 80
+        }
+        protocol = "6"
+        source = "${var.public_subnet_ad1_cidr}"
+    },
+    {
+        tcp_options {
+            "max" = 443
+            "min" = 443
+        }
+        protocol = "6"
+        source = "${var.public_subnet_ad1_cidr}"
+    },
+    {
+        tcp_options {
+            "max" = 4443
+            "min" = 4443
+        }
+        protocol = "6"
+        source = "${var.public_subnet_ad1_cidr}"
+    },
+    {
+        tcp_options {
+            "max" = 80
+            "min" = 80
+        }
+        protocol = "6"
+        source = "${var.public_subnet_ad2_cidr}"
+    },
+    {
+        tcp_options {
+            "max" = 443
+            "min" = 443
+        }
+        protocol = "6"
+        source = "${var.public_subnet_ad2_cidr}"
+    },
+    {
+        tcp_options {
+            "max" = 4443
+            "min" = 4443
+        }
+        protocol = "6"
+        source = "${var.public_subnet_ad2_cidr}"
     }]
 }
 
@@ -308,6 +337,19 @@ resource "baremetal_core_subnet" "private_subnet_ad2" {
   display_name        = "private_subnet_ad2"
   dhcp_options_id     = "${baremetal_core_virtual_network.cloudfoundry_vcn.default_dhcp_options_id}"
   dns_label           = "cfprvad2"
+  compartment_id      = "${baremetal_identity_compartment.bosh_compartment.id}"
+  vcn_id              = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
+  route_table_id      = "${baremetal_core_route_table.cloudfoundry_route_table.id}"
+  security_list_ids   = ["${baremetal_core_security_list.private_subnet.id}"]
+  prohibit_public_ip_on_vnic = true
+}
+
+resource "baremetal_core_subnet" "private_subnet_ad3" {
+  availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[2], "name")}"
+  cidr_block          = "${var.private_subnet_ad3_cidr}"
+  display_name        = "private_subnet_ad3"
+  dhcp_options_id     = "${baremetal_core_virtual_network.cloudfoundry_vcn.default_dhcp_options_id}"
+  dns_label           = "cfprvad3"
   compartment_id      = "${baremetal_identity_compartment.bosh_compartment.id}"
   vcn_id              = "${baremetal_core_virtual_network.cloudfoundry_vcn.id}"
   route_table_id      = "${baremetal_core_route_table.cloudfoundry_route_table.id}"

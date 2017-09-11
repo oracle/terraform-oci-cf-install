@@ -72,6 +72,10 @@ variable "private_subnet_ad2_cidr" {
     default = "10.0.6.0/24"
 }
 
+variable "private_subnet_ad3_cidr" {
+    default = "10.0.7.0/24"
+}
+
 # Bastion VM
 
 # Choose an Availability Domain for the Bastion instance.
