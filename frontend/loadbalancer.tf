@@ -8,12 +8,13 @@ resource "baremetal_load_balancer" "cf_load_balancer" {
     ]
 }
 
+# TODO: Do we need port 80 open for private subnets or only 8080?
+# https://docs.cloudfoundry.org/adminguide/configure-lb-healthcheck.html
 resource "baremetal_load_balancer_backendset" "cf_load_balancer_backendset" {
     name             = "cf_load_balancer_backendset"
     load_balancer_id = "${baremetal_load_balancer.cf_load_balancer.id}"
     policy           = "ROUND_ROBIN"
 
-    # TODO: Do we need port 80 open for private subnets or only 8080?
     health_checker {
         port     = "8080"
         protocol = "HTTP"
