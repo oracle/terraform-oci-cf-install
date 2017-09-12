@@ -9,6 +9,7 @@ keys/bosh-ssh.pub
 keys/bosh-ssh
 keys/lb-ssl.key
 keys/lb-ssl.crt
+keys/lb-ssl.csr
 terraform.tfstate
 terraform.tfstate.backup
 my-env-vars.sh
