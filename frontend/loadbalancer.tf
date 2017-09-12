@@ -1,7 +1,7 @@
 resource "baremetal_load_balancer" "cf_load_balancer" {
     compartment_id = "ocid1.compartment.oc1..aaaaaaaaectl7xrrmv3sy5eyhn3bjw3rcogtphz5i2wzqms22k4olgfs6voa"
     display_name   = "cf_load_balancer"
-    shape          = "400Mbps"
+    shape          = "${var.cf_load_balancer_shape}"
     subnet_ids     = [
       "${var.public_subnet_ad1_id}",
       "${var.public_subnet_ad2_id}"
@@ -13,6 +13,7 @@ resource "baremetal_load_balancer_backendset" "cf_load_balancer_backendset" {
     load_balancer_id = "${baremetal_load_balancer.cf_load_balancer.id}"
     policy           = "ROUND_ROBIN"
 
+    # TODO: Do we need port 80 open for private subnets or only 8080?
     health_checker {
         port     = "8080"
         protocol = "HTTP"

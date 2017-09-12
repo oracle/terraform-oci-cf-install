@@ -7,7 +7,7 @@ variable "bosh_compartment_id" {}
 variable "public_subnet_ad1_id" {}
 variable "public_subnet_ad2_id" {}
 
-variable "loadbalancer_shape" {
+variable "cf_load_balancer_shape" {
     default = "400Mbps"
 }
 
