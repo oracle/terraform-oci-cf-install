@@ -49,6 +49,10 @@ BMC.  This script generates the keys that BOSH will use to communicate with BMC,
 an SSH key pair for shell access to the bastion instance, and SSL certificates that will be
 installed for the Load Balancers.
 
+As part of the process to create SSL certificates, you will be prompted for a passphrase.
+You may enter what you like, but keep in mind it will ask you for the password again later
+in the process.
+
 Once all the steps above are completed your environment variables have been configured, you may run `terraform
 apply` to have Terraform deploy the environment.
 

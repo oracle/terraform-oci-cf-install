@@ -11,4 +11,7 @@ openssl rsa -pubout -in ./keys/bosh-api-private-key.pem -out ./keys/bosh-api-pub
 openssl rsa -pubout -outform DER -in ./keys/bosh-api-private-key.pem | openssl md5 -c > ./keys/bosh-api-fingerprint
 
 # Generate SSL Certificates for Load Balancers.
-openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./keys/lb-ssl.key -out ./keys/lb-ssl.crt
+openssl genrsa -des3 -out ./keys/lb-ssl.key 2048
+openssl rsa -in ./keys/lb-ssl.key -out ./keys/lb-ssl.key
+openssl req -new -key ./keys/lb-ssl.key -out ./keys/lb-ssl.csr
+openssl x509 -req -days 365 -in ./keys/lb-ssl.csr -signkey ./keys/lb-ssl.key -out ./keys/lb-ssl.crt

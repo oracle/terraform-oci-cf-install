@@ -242,6 +242,14 @@ resource "baremetal_core_security_list" "private_subnet" {
     },
     {
         tcp_options {
+            "max" = 8080
+            "min" = 8080
+        }
+        protocol = "6"
+        source = "${var.public_subnet_ad1_cidr}"
+    },
+    {
+        tcp_options {
             "max" = 80
             "min" = 80
         }
@@ -260,6 +268,14 @@ resource "baremetal_core_security_list" "private_subnet" {
         tcp_options {
             "max" = 4443
             "min" = 4443
+        }
+        protocol = "6"
+        source = "${var.public_subnet_ad2_cidr}"
+    },
+    {
+        tcp_options {
+            "max" = 8080
+            "min" = 8080
         }
         protocol = "6"
         source = "${var.public_subnet_ad2_cidr}"
