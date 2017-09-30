@@ -1,6 +1,9 @@
 *.DS_Store
 *.swp
+.terraform/
 env-vars
+bootstrap/director-env-vars.yml
+bootstrap/my-env-vars.yml
 keys/bosh-api-fingerprint
 keys/bosh-api-private-key.pem
 keys/bosh-api-public-key.pem
@@ -12,4 +15,3 @@ keys/lb-ssl.crt
 keys/lb-ssl.csr
 terraform.tfstate
 terraform.tfstate.backup
-my-env-vars.sh

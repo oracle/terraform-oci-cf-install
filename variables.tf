@@ -1,14 +1,11 @@
 # Authentication
-variable "oracle_bmcs_tenancy_ocid" {}
-variable "oracle_bmcs_user_ocid" {}
-variable "oracle_bmcs_fingerprint" {}
-variable "oracle_bmcs_private_key_path" {}
-
-# Cloud services
-variable oracle_bmcs_region {
+variable "oci_tenancy_ocid" {}
+variable "oci_user_ocid" {}
+variable "oci_fingerprint" {}
+variable "oci_private_key_path" {}
+variable "oci_region" {
     default = "us-phoenix-1"
 }
-
 
 # Identity
 variable "bosh_compartment_name" {

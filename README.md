@@ -7,23 +7,23 @@
 
 ## Initializing a Cloud Foundry / BOSH deployment
 
-This project exists to simplify the configuration and deployment of Cloud Foundry and BOSH on the
-Oracle Bare Metal Cloud Service. It will configure the following:
+This project exists to simplify the configuration and deployment of Cloud Foundry and BOSH on
+Oracle Cloud Infrastructure. It will configure the following:
 * VCN and Subnets
     * Public, Private and Bastion Subnets in 3 Availability Domains
 * A Bastion server with BOSH CLI for deploying MicroBOSH and Cloud Foundry.
 
-### Configuring Terraform to work with Oracle BMC
+### Configuring Terraform to work with OCI
 
-First, install Terraform v0.9.8 or later.  On OSX, you can use HomeBrew:
+First, install Terraform v0.10.6 or later.  On OSX, you can use HomeBrew:
 
     $ brew install terraform
 
-Next, download the latest release of the Terraform Oracle Bare Metal Cloud Provider from GitHb:
+Next, download the latest release of the Terraform OCI Provider from GitHb:
 
-    https://github.com/oracle/terraform-provider-baremetal/releases
+    https://github.com/oracle/terraform-provider-oci/releases
 
-Place the binary somewhere in your path (probably /usr/local/bin).
+Place the binary somewhere in your path (probably `/usr/local/bin`).
 
 ### Using this project
 
@@ -31,21 +31,40 @@ Place the binary somewhere in your path (probably /usr/local/bin).
 * Source env-var
   * `$ . env-var`
 
-### Configuring the BMCS API Key
+### Configuring the OCI API Key
 
-In order to use Terraform with the Oracle BMC, you will need to configure an API Key. You must
+In order to use Terraform with OCI, you will need to configure an API Key. You must
 generate a public key in PEM format and obtain its fingerprint. Follow this guide here for more
 information:
 
     https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm
 
+### Configure OCI Policies
+
+Currently, the Terraform OCI Provider does not support creating tenancy wide policies.
+They need to be created manually for the time being.  To create the tenancy wide policies,
+see the official OCI documentation:
+
+    https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Tasks/managingpolicies.htm
+
+Create the following policy in the root compartment of your tenancy:
+
+    allow group bosh to manage instance-family in tenancy
+    allow group bosh to manage volume-family in tenancy
+    allow group bosh to manage object-family in tenancy
+    allow group bosh to manage virtual-network-family in tenancy
+    allow group bosh to manage load-balancers in tenancy
+
+If you override the default group name defined in `variables.tf`, then you will need to replace
+`bosh` with that name in the rules above.
+
 ### Deploying the BOSH Bastion using Terraform
 
 ###### Create an API signing key, SSH key pair, and SSL certificates for Load Balancers.
 
-First, you will want to run the included script `bosh-key-gen.sh`.  Confusingly, this is a
-separate key from the BMC API Key mentioned above, which is used by Terraform to communicate with
-BMC.  This script generates the keys that BOSH will use to communicate with BMC, as well as
+First, you will want to run the included script `bosh-key-gen.sh`. This is a
+separate key from the OCI API Key mentioned above, which is used by Terraform to communicate with
+OCI. This script generates the keys that BOSH will use to communicate with OCI, as well as
 an SSH key pair for shell access to the bastion instance, and SSL certificates that will be
 installed for the Load Balancers.
 

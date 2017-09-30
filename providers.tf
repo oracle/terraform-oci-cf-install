@@ -1,6 +1,7 @@
-provider "baremetal" {
-    tenancy_ocid     = "${var.oracle_bmcs_tenancy_ocid}"
-    user_ocid        = "${var.oracle_bmcs_user_ocid}"
-    fingerprint      = "${var.oracle_bmcs_fingerprint}"
-    private_key_path = "${var.oracle_bmcs_private_key_path}"
+provider "oci" {
+    region           = "${var.oci_region}"
+    tenancy_ocid     = "${var.oci_tenancy_ocid}"
+    user_ocid        = "${var.oci_user_ocid}"
+    fingerprint      = "${var.oci_fingerprint}"
+    private_key_path = "${var.oci_private_key_path}"
 }
