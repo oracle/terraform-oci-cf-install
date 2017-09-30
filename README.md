@@ -11,7 +11,7 @@ This project exists to simplify the configuration and deployment of Cloud Foundr
 Oracle Cloud Infrastructure. It will configure the following:
 * VCN and Subnets
     * Public, Private and Bastion Subnets in 3 Availability Domains
-* A Bastion server with BOSH CLI for deploying MicroBOSH and Cloud Foundry.
+* A Bastion server with BOSH CLI for deploying BOSH Director and Cloud Foundry.
 
 ### Configuring Terraform to work with OCI
 
