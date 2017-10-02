@@ -24,16 +24,15 @@ resource "oci_identity_api_key" "bosh_api_key" {
     key_value = "${file(var.bosh_api_public_key)}"
 }
 
-# Add this once OCI Provider supports optional compartment id on policies.
-# https://github.com/oracle/terraform-provider-oci/issues/280
-#resource "oci_identity_policy" "bosh_policy" {
-#    name = "${oci_identity_group.bosh_group.name}-policy"
-#    description = "bosh policies"
-#    statements = [
-#        "allow group ${oci_identity_group.bosh_group.name} to manage instance-family in tenancy",
-#        "allow group ${oci_identity_group.bosh_group.name} to manage volume-family in tenancy",
-#        "allow group ${oci_identity_group.bosh_group.name} to manage object-family in tenancy",
-#        "allow group ${oci_identity_group.bosh_group.name} to manage virtual-network-family in tenancy",
-#        "allow group ${oci_identity_group.bosh_group.name} to manage load-balancers in tenancy"
-#    ]
-#}
+resource "oci_identity_policy" "bosh_policy" {
+    compartment_id = "${var.oci_tenancy_ocid}"
+    name = "${oci_identity_group.bosh_group.name}-policy"
+    description = "bosh policies"
+    statements = [
+        "allow group ${oci_identity_group.bosh_group.name} to manage instance-family in tenancy",
+        "allow group ${oci_identity_group.bosh_group.name} to manage volume-family in tenancy",
+        "allow group ${oci_identity_group.bosh_group.name} to manage object-family in tenancy",
+        "allow group ${oci_identity_group.bosh_group.name} to manage virtual-network-family in tenancy",
+        "allow group ${oci_identity_group.bosh_group.name} to manage load-balancers in tenancy"
+    ]
+}

@@ -39,25 +39,6 @@ information:
 
     https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm
 
-### Configure OCI Policies
-
-Currently, the Terraform OCI Provider does not support creating tenancy wide policies.
-They need to be created manually for the time being.  To create the tenancy wide policies,
-see the official OCI documentation:
-
-    https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Tasks/managingpolicies.htm
-
-Create the following policy in the root compartment of your tenancy:
-
-    allow group bosh to manage instance-family in tenancy
-    allow group bosh to manage volume-family in tenancy
-    allow group bosh to manage object-family in tenancy
-    allow group bosh to manage virtual-network-family in tenancy
-    allow group bosh to manage load-balancers in tenancy
-
-If you override the default group name defined in `variables.tf`, then you will need to replace
-`bosh` with that name in the rules above.
-
 ### Deploying the BOSH Bastion using Terraform
 
 ###### Create an API signing key, SSH key pair, and SSL certificates for Load Balancers.
