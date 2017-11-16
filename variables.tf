@@ -37,7 +37,7 @@ variable "bosh_ssh_private_key" {
     default = "./keys/bosh-ssh"
 }
 variable "bosh_ssh_username" {
-    default = "ubuntu"
+    default = "vcap"
 }
 
 # Networking
