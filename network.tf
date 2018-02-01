@@ -331,7 +331,7 @@ resource "oci_core_subnet" "private_subnet_ad1" {
   vcn_id              = "${oci_core_virtual_network.cloudfoundry_vcn.id}"
   route_table_id      = "${oci_core_route_table.cloudfoundry_route_table.id}"
   security_list_ids   = ["${oci_core_security_list.private_subnet.id}"]
-  prohibit_public_ip_on_vnic = true
+  prohibit_public_ip_on_vnic = false
 }
 
 resource "oci_core_subnet" "public_subnet_ad2" {
@@ -357,7 +357,7 @@ resource "oci_core_subnet" "private_subnet_ad2" {
   vcn_id              = "${oci_core_virtual_network.cloudfoundry_vcn.id}"
   route_table_id      = "${oci_core_route_table.cloudfoundry_route_table.id}"
   security_list_ids   = ["${oci_core_security_list.private_subnet.id}"]
-  prohibit_public_ip_on_vnic = true
+  prohibit_public_ip_on_vnic = false
 }
 
 resource "oci_core_subnet" "private_subnet_ad3" {
@@ -370,5 +370,5 @@ resource "oci_core_subnet" "private_subnet_ad3" {
   vcn_id              = "${oci_core_virtual_network.cloudfoundry_vcn.id}"
   route_table_id      = "${oci_core_route_table.cloudfoundry_route_table.id}"
   security_list_ids   = ["${oci_core_security_list.private_subnet.id}"]
-  prohibit_public_ip_on_vnic = true
+  prohibit_public_ip_on_vnic = false
 }

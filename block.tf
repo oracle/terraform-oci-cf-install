@@ -2,7 +2,7 @@ resource "oci_core_volume" "bosh_cli_vol" {
     availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.bastion_ad - 1], "name")}"
     compartment_id = "${oci_identity_compartment.bosh_compartment.id}"
     display_name = "bosh_cli_vol"
-    size_in_mbs = "${var.256GB}"
+    size_in_gbs = "${var.256GB}"
 }
 
 resource "oci_core_volume_attachment" "bosh_cli_vol_attach" {

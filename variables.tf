@@ -101,7 +101,7 @@ variable "bastion_instance_os_version" {
 }
 
 variable "256GB" {
-    default = "262144"
+    default = "256"
 }
 
 variable "bastion_bootstrap_file" {
