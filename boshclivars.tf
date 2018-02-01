@@ -9,14 +9,19 @@ compartment: ${oci_identity_compartment.bosh_compartment.id}
 apikey: |${format("\n   %s",join("\n   ", split("\n", file(var.bosh_api_private_key))))}
 fingerprint: ${file(var.bosh_api_fingerprint)}
 ssh_key: ${file(var.bosh_ssh_public_key)}
+vcn: ${oci_core_virtual_network.cloudfoundry_vcn.display_name}
 ad1: ${oci_core_subnet.private_subnet_ad1.availability_domain}
-ad1: ${oci_core_subnet.private_subnet_ad2.availability_domain}
+ad2: ${oci_core_subnet.private_subnet_ad2.availability_domain}
+ad3: ${oci_core_subnet.private_subnet_ad3.availability_domain}
 subnet1: ${oci_core_subnet.private_subnet_ad1.display_name}
 subnet2: ${oci_core_subnet.private_subnet_ad2.display_name}
+subnet3: ${oci_core_subnet.private_subnet_ad3.display_name}
 internal_cidr_n1: ${oci_core_subnet.private_subnet_ad1.cidr_block}
 internal_cidr_n2: ${oci_core_subnet.private_subnet_ad2.cidr_block}
+internal_cidr_n3: ${oci_core_subnet.private_subnet_ad3.cidr_block}
 internal_gw_n1: ${cidrhost(oci_core_subnet.private_subnet_ad1.cidr_block, 1)}
 internal_gw_n2: ${cidrhost(oci_core_subnet.private_subnet_ad2.cidr_block, 1)}
+internal_gw_n3: ${cidrhost(oci_core_subnet.private_subnet_ad3.cidr_block, 1)}
 EOF
 
 }
@@ -34,7 +39,7 @@ fingerprint: ${file(var.bosh_api_fingerprint)}
 provisioned_username: ${var.bosh_ssh_username}
 ssh_key: ${file(var.bosh_ssh_public_key)}
 region: ${var.oci_region}
-ad1: ${oci_core_subnet.director_subnet_ad1.availability_domain}
+ad: ${oci_core_subnet.director_subnet_ad1.availability_domain}
 vcn: ${oci_core_virtual_network.cloudfoundry_vcn.display_name}
 subnet: ${oci_core_subnet.director_subnet_ad1.display_name}
 internal_cidr: ${oci_core_subnet.director_subnet_ad1.cidr_block}
