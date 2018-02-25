@@ -56,6 +56,14 @@ resource "oci_core_security_list" "public_subnet" {
     {
         protocol = "6"
         source = "${var.vpc_cidr}"
+    },
+    {
+        tcp_options {
+          "max" = 2222
+          "min" = 2222
+        }
+        protocol = "6"
+        source = "0.0.0.0/0"
     }]
 }
 
@@ -234,6 +242,14 @@ resource "oci_core_security_list" "private_subnet" {
     },
     {
         tcp_options {
+          "max" = 2222
+          "min" = 2222
+        }
+        protocol = "6"
+        source = "${var.public_subnet_ad1_cidr}"
+    },
+    {
+        tcp_options {
             "max" = 4443
             "min" = 4443
         }
@@ -260,6 +276,14 @@ resource "oci_core_security_list" "private_subnet" {
         tcp_options {
             "max" = 443
             "min" = 443
+        }
+        protocol = "6"
+        source = "${var.public_subnet_ad2_cidr}"
+    },
+    {
+        tcp_options {
+          "max" = 2222
+          "min" = 2222
         }
         protocol = "6"
         source = "${var.public_subnet_ad2_cidr}"
