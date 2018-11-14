@@ -15,15 +15,14 @@ Oracle Cloud Infrastructure. It will configure the following:
 
 ### Configuring Terraform to work with OCI
 
-First, install Terraform v0.10.6 or later.  On OSX, you can use HomeBrew:
+First, install Terraform v0.11.10 or later.  On OSX, you can use HomeBrew:
 
     $ brew install terraform
 
-Next, download the latest release of the Terraform OCI Provider from GitHb:
+Next, use `terraform init` to download Terraform OCI provider
 
-    https://github.com/oracle/terraform-provider-oci/releases
+    $ terraform init 
 
-Place the binary somewhere in your path (probably `/usr/local/bin`).
 
 ### Using this project
 
