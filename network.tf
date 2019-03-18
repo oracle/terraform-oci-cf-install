@@ -342,7 +342,7 @@ resource "oci_core_subnet" "director_subnet_ad1" {
   vcn_id              = "${oci_core_virtual_network.cloudfoundry_vcn.id}"
   route_table_id      = "${oci_core_route_table.cloudfoundry_route_table.id}"
   security_list_ids   = ["${oci_core_security_list.director_subnet.id}"]
-  prohibit_public_ip_on_vnic = false # https://jira.aka.lgl.grungy.us/browse/CF-229
+  prohibit_public_ip_on_vnic = false
 }
 
 resource "oci_core_subnet" "private_subnet_ad1" {
